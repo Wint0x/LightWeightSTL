@@ -3,20 +3,10 @@
 #include "queue.h"
 #include "stack.h"
 #include "hash_map.h"
+#include "matrix.h"
 #include <stdio.h>
-
-void transform_list(LinkedList *list, void (*func)(void *))
-{
-	if (!list || list->root == NULL)
-		return;
-
-	Node *current = list->root;
-	while (current)
-	{
-		func(current->value);
-		current = current->next;
-	}
-}
+#include <stdlib.h>
+#include <string.h>
 
 static void print_reverse_recursive(Node *node, void (*print_func)(void *)) 
 {
@@ -28,7 +18,7 @@ static void print_reverse_recursive(Node *node, void (*print_func)(void *))
 	putchar('\n');
 }
 
-void print_list(LinkedList *list, void (*print_func)(void *), int reverse)
+void print_list(const LinkedList *list, void (*print_func)(void *), int reverse)
 {
 	if (!list || list->root == NULL)
 		return;
@@ -47,6 +37,33 @@ void print_list(LinkedList *list, void (*print_func)(void *), int reverse)
 	default:
 		print_reverse_recursive(list->root, print_func);
 		break;
+	}
+}
+
+void print_matrix(const Matrix *matrix)
+{
+    if (!matrix || !matrix->data || matrix->rows == 0 || matrix->cols == 0)
+        return;
+
+    for (size_t row = 0; row < matrix->rows; ++row)
+    {
+        for (size_t col = 0; col < matrix->cols; ++col)
+        {
+            printf("%6.2f\t", matrix->data[row * matrix->cols + col]);
+        }
+        putchar('\n');
+    }
+}
+void transform_list(LinkedList *list, void (*func)(void *))
+{
+	if (!list || list->root == NULL)
+		return;
+
+	Node *current = list->root;
+	while (current)
+	{
+		func(current->value);
+		current = current->next;
 	}
 }
 
