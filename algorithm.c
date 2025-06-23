@@ -49,3 +49,31 @@ void print_list(LinkedList *list, void (*print_func)(void *), int reverse)
 		break;
 	}
 }
+
+LinkedList *filter_list(LinkedList *other, int(*filter_func)(void *), size_t element_size)
+{
+	if (!other || !filter_func)
+		return NULL;
+
+	LinkedList *result = malloc(sizeof(LinkedList));
+	if (!result)
+		return NULL;
+
+	init_list(result);
+
+	Node *current = other->root;
+	while (current)
+	{
+		if (filter_func(current->value))
+		{
+			void *copy = malloc(element_size);
+
+			memcpy(copy, current->value, element_size);
+			push_back(result, copy, element_size);
+		}
+
+		current = current->next;
+	}
+
+	return result;
+}
