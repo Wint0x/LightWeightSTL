@@ -121,9 +121,11 @@
 
     print_matrix
 
-    print_tree (planned)
+    print_tree
 
 🧪 Usage Example
+
+```c
 int main(void) {
     LinkedList list;
     init_list(&list);
@@ -138,7 +140,9 @@ int main(void) {
 
     free_list(&list);
     return 0;
-}
+}  
+```
+
 💡 Goals & Philosophy
 
     Header-based modularity
@@ -173,7 +177,7 @@ int main(void) {
 
 📄 License
 
-MIT (or custom open license — your choice)
+MIT
 
 Made for learning. Built to last. ❤️
 
