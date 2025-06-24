@@ -15,11 +15,9 @@
 
         is_empty
 
-        is_full
-
         free_stack
 
-2. Queue
+3. Queue
 
     Singly linked list-based FIFO queue
 
@@ -37,7 +35,7 @@
 
         free_queue
 
-3. Linked List
+4. Linked List
 
     Singly linked, generic node list
 
@@ -55,7 +53,7 @@
 
         free_list
 
-4. Hash Map
+5. Hash Map
 
     Separate chaining (linked list in buckets)
 
@@ -75,7 +73,7 @@
 
     Uses strdup to manage string keys
 
-5. Matrix
+6. Matrix
 
     2D array abstraction
 
@@ -95,7 +93,7 @@
 
         Accessor utilities: get_matrix_rows, get_matrix_cols
 
-6. Binary Tree
+7. Binary Tree
 
     Generic binary search tree
 
