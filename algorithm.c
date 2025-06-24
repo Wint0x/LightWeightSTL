@@ -4,10 +4,12 @@
 #include "stack.h"
 #include "hash_map.h"
 #include "matrix.h"
+#include "tree.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+// Printing Data Structures
 static void print_reverse_recursive(Node *node, void (*print_func)(void *)) 
 {
 	if (!node)
@@ -54,6 +56,29 @@ void print_matrix(const Matrix *matrix)
         putchar('\n');
     }
 }
+
+static void print_tree_node(TreeNode *node, void (*print_value)(void *), int depth)
+{
+    if (!node) return;
+
+    print_tree_node(node->right, print_value, depth + 1);
+
+    for (int i = 0; i < depth; ++i)
+        printf("    ");  // 4 spaces per level of depth
+
+    print_value(node->value);
+    putchar('\n');
+
+    print_tree_node(node->left, print_value, depth + 1);
+}
+
+void print_tree(Tree *tree, void (*print_value)(void *))
+{
+    if (!tree || !tree->root || !print_value) return;
+    print_tree_node(tree->root, print_value, 0);
+}
+
+// Transformation
 void transform_list(LinkedList *list, void (*func)(void *))
 {
 	if (!list || list->root == NULL)
