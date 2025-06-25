@@ -11,23 +11,29 @@
 #include <stddef.h>
 #include <stdio.h>
 
+#define print_int(val)    printf("%d\n", val)
+#define print_float(val)  printf("%f\n", val)
+#define print_double(val) printf("%lf\n", val)
+#define print_str(val)    printf("%s\n", val)
+#define print_char(val)   printf("%c\n", val)
+
 // Printing Helper
-static inline void print_int(void *value)
+static inline void print_int_ptr(void *value)
 {
     printf("%d\n", *(int *)value);
 }
 
-static inline void print_float(void *value)
+static inline void print_float_ptr(void *value)
 {
     printf("%f\n", *(float *)value);
 }
 
-static inline void print_double(void *value)
+static inline void print_double_ptr(void *value)
 {
     printf("%lf\n", *(double *)value);
 }
 
-static inline void print_str(void *value)
+static inline void print_str_ptr(void *value)
 {
     printf("%s\n",(char *) value);
 }
