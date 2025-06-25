@@ -109,6 +109,26 @@
 
         free_tree
 
+8. Graph
+
+    DFS/BFS in algorithm.h
+
+    Generic Graph
+
+    Operations:  
+
+        insert_edge  
+
+        print_graph (with print_int) algorithm.h  
+
+        has_edge  
+        
+        get_neighbors  
+        
+        remove_edge  
+
+        free_graph  
+
 🛠 Utilities (algorithm module)
 
     print_int, print_float, print_str
