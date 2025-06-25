@@ -7,6 +7,7 @@
 #include "hash_map.h"
 #include "matrix.h"
 #include "tree.h"
+#include "graph.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -21,6 +22,11 @@ static inline void print_float(void *value)
     printf("%f\n", *(float *)value);
 }
 
+static inline void print_double(void *value)
+{
+    printf("%lf\n", *(double *)value);
+}
+
 static inline void print_str(void *value)
 {
     printf("%s\n",(char *) value);
@@ -29,8 +35,17 @@ static inline void print_str(void *value)
 void print_list(const LinkedList *list, void (*print_func)(void *), int reverse);
 void print_matrix(const Matrix *matrix);
 void print_tree(Tree *tree, void (*print_value)(void *));
+void print_graph(const Graph *graph);
+
 // Transformation / Filtering
 void transform_list(LinkedList *list, void (*func)(void *));
 LinkedList *filter_list(LinkedList *other, int(*filter_func)(void *), size_t element_size);
+
+/* GRAPH ALGORITHMS */
+void dfs_graph(const Graph *graph, int start_vertex, void (*visit)(int ));
+/* Breadth-first search (level-order) */
+void bfs_graph(const Graph *graph,
+               int start_vertex,
+               void (*visit)(int));
 
 #endif

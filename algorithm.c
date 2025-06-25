@@ -5,6 +5,7 @@
 #include "hash_map.h"
 #include "matrix.h"
 #include "tree.h"
+#include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -78,6 +79,22 @@ void print_tree(Tree *tree, void (*print_value)(void *))
     print_tree_node(tree->root, print_value, 0);
 }
 
+void print_graph(const Graph *graph) 
+{
+   	for (size_t v = 0; v < graph->num_vertices; ++v) 
+   	{
+        printf("%zu:", v);
+        GraphNode* temp = graph->adj_lists[v];
+        while (temp) 
+        {
+            printf(" -> %d", temp->vertex);
+            temp = temp->next;
+        }
+        putchar('\n');
+    }
+}
+
+
 // Transformation
 void transform_list(LinkedList *list, void (*func)(void *))
 {
@@ -118,4 +135,86 @@ LinkedList *filter_list(LinkedList *other, int(*filter_func)(void *), size_t ele
 	}
 
 	return result;
+}
+
+
+/* GRAPH ALGORITHMS */
+void dfs_graph(const Graph *graph, int start_vertex, void (*visit)(int)) 
+{
+    if (!graph || start_vertex >= graph->num_vertices) return;
+
+    bool *visited = calloc(graph->num_vertices, sizeof(bool));
+    Stack stack;
+    init_stack(&stack, graph->num_vertices, sizeof(int));
+
+    push(&stack, &start_vertex);
+
+    while (!is_empty(&stack)) 
+    {
+        int *v_ptr = pop(&stack);
+        if (!v_ptr) break;
+        int v = *v_ptr;
+        free(v_ptr);
+
+        if (!visited[v]) {
+            visit(v);
+            visited[v] = true;
+
+            GraphNode *neighbors = get_neighbors(graph, v);
+            while (neighbors) {
+                if (!visited[neighbors->vertex])
+                    push(&stack, &neighbors->vertex);
+                neighbors = neighbors->next;
+            }
+        }
+    }
+
+    free_stack(&stack);
+    free(visited);
+}
+
+void bfs_graph(const Graph *graph,
+               int start_vertex,
+               void (*visit)(int))
+{
+    if (!graph || start_vertex >= (int)graph->num_vertices || !visit)
+        return;
+
+    /* book-keeping */
+    bool *visited = calloc(graph->num_vertices, sizeof(bool));
+    if (!visited) return;
+
+    /* generic queue< int > */
+    Queue q;
+    init_queue(&q);                         /* queue uses dynamic nodes */
+
+    enqueue(&q, &start_vertex, sizeof(int));
+    visited[start_vertex] = true;
+
+    while (!is_queue_empty(&q))
+    {
+        int *v_ptr = (int *)dequeue(&q);
+        if (!v_ptr) break;                  /* safety */
+
+        int v = *v_ptr;
+        free(v_ptr);
+
+        visit(v);                           /* user-supplied callback */
+
+        /* push all unvisited neighbours */
+        GraphNode *nbr = get_neighbors(graph, v);
+        while (nbr)
+        {
+            int w = nbr->vertex;
+            if (!visited[w])
+            {
+                enqueue(&q, &w, sizeof(int));
+                visited[w] = true;
+            }
+            nbr = nbr->next;
+        }
+    }
+
+    free_queue(&q);
+    free(visited);
 }
