@@ -96,30 +96,54 @@ void print_graph(const Graph *graph)
     }
 }
 
-void print_tensor(Tensor *t) 
-{
-    if (!t) 
+
+static void print_tensor_recursive(const Tensor *t, size_t dim, size_t *index) {
+    if (dim == t->ndim) 
     {
+        // Reached a full index like [1,2,3]
+        printf("[");
+        for (size_t i = 0; i < t->ndim; ++i)
+            printf("%zu%s", index[i], (i + 1 < t->ndim) ? ", " : "");
+        printf("] = %.3f\n", tensor_get(t, index));
+        return;
+    }
+
+    for (index[dim] = 0; index[dim] < t->shape[dim]; ++index[dim]) 
+    {
+        print_tensor_recursive(t, dim + 1, index);
+    }
+}
+
+void print_tensor(const Tensor *t) {
+    if (!t) {
         printf("(null tensor)\n");
         return;
     }
+
+    printf("Tensor shape: (");
+    for (size_t i = 0; i < t->ndim; ++i)
+        printf("%zu%s", t->shape[i], (i + 1 < t->ndim) ? ", " : "");
+    printf(")\n");
 
     size_t total = 1;
     for (size_t i = 0; i < t->ndim; ++i)
         total *= t->shape[i];
 
-    printf("Tensor shape: (");
-    for (size_t i = 0; i < t->ndim; ++i)
-        printf("%zu%s", t->shape[i], i + 1 < t->ndim ? ", " : "");
-    printf(")\n");
+    if (total > 100) 
+    {
+        printf("Too large to print (%zu values). Showing first 100 only.\n", total);
+        // Could add truncation logic here.
+    }
 
-    printf("First few elements: [");
-    size_t max = total < 10 ? total : 10;
-    for (size_t i = 0; i < max; ++i)
-        printf("%.4f%s", t->data[i], i + 1 < max ? ", " : "");
-    if (total > max)
-        printf(", ...");
-    printf("]\n");
+    size_t *index = calloc(t->ndim, sizeof(size_t));
+    if (!index) 
+    {
+        printf("Memory error while printing tensor.\n");
+        return;
+    }
+
+    print_tensor_recursive(t, 0, index);
+    free(index);
 }
 
 // Transformation
