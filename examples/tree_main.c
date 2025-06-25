@@ -19,15 +19,15 @@ int main(void)
 
 
 	printf("Inorder traversal: ");
-    traverse_tree_inorder(mytree.root, print_int);
+    traverse_tree_inorder(mytree.root, print_int_ptr);
     putchar('\n');
 
     printf("Preorder traversal: ");
-    traverse_tree_preorder(mytree.root, print_int);
+    traverse_tree_preorder(mytree.root, print_int_ptr);
     putchar('\n');
 
     printf("Postorder traversal: ");
-    traverse_tree_postorder(mytree.root, print_int);
+    traverse_tree_postorder(mytree.root, print_int_ptr);
     putchar('\n');
     
 	free_tree(&mytree, free);
