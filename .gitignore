@@ -1,1 +1,4 @@
 .token
+a.*
+*.exe
+*.out
