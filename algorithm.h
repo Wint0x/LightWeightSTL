@@ -8,6 +8,7 @@
 #include "matrix.h"
 #include "tree.h"
 #include "graph.h"
+#include "tensor.h"
 #include <stddef.h>
 #include <stdio.h>
 
@@ -43,6 +44,7 @@ void print_matrix(const Matrix *matrix);
 void print_tree(Tree *tree, void (*print_value)(void *));
 void print_graph(const Graph *graph);
 
+void print_tensor(Tensor *t);
 // Transformation / Filtering
 void transform_list(LinkedList *list, void (*func)(void *));
 LinkedList *filter_list(LinkedList *other, int(*filter_func)(void *), size_t element_size);

@@ -6,9 +6,11 @@
 #include "matrix.h"
 #include "tree.h"
 #include "graph.h"
+#include "tensor.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
 // Printing Data Structures
 static void print_reverse_recursive(Node *node, void (*print_func)(void *)) 
@@ -94,6 +96,31 @@ void print_graph(const Graph *graph)
     }
 }
 
+void print_tensor(Tensor *t) 
+{
+    if (!t) 
+    {
+        printf("(null tensor)\n");
+        return;
+    }
+
+    size_t total = 1;
+    for (size_t i = 0; i < t->ndim; ++i)
+        total *= t->shape[i];
+
+    printf("Tensor shape: (");
+    for (size_t i = 0; i < t->ndim; ++i)
+        printf("%zu%s", t->shape[i], i + 1 < t->ndim ? ", " : "");
+    printf(")\n");
+
+    printf("First few elements: [");
+    size_t max = total < 10 ? total : 10;
+    for (size_t i = 0; i < max; ++i)
+        printf("%.4f%s", t->data[i], i + 1 < max ? ", " : "");
+    if (total > max)
+        printf(", ...");
+    printf("]\n");
+}
 
 // Transformation
 void transform_list(LinkedList *list, void (*func)(void *))
