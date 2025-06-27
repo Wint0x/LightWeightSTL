@@ -48,7 +48,7 @@ int main(void)
     /* final predictions */
     ml_dense_forward(Yhat,X,W,b);
     ml_softmax_row(soft,Yhat);
-    print_ndarray_matrix(soft);        /* from your previous helper */
+    print_ndarray_matrix(soft);     
 
     matrix_free(X);matrix_free(Y);matrix_free(W);matrix_free(b);
     matrix_free(Yhat);matrix_free(soft);matrix_free(dY);
