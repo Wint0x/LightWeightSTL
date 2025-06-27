@@ -2,6 +2,8 @@
 #define H_GRAPH
 
 #include <stddef.h>
+#include <stdbool.h>
+
 typedef struct GraphNode 
 {
     int vertex;

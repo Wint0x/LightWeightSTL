@@ -1,11 +1,12 @@
 #include "matrix.h"
 #include <stdlib.h>
 #include <stddef.h>
+#include <string.h>
 
 #define CHECK(cond,code) do{ if(!(cond)) return (code);}while(0)
 
 // Init
-void matrix_create(size_t rows, size_t cols)
+Matrix *matrix_create(size_t rows, size_t cols)
 {
     Matrix *m = malloc(sizeof *m);
     if (!m) return NULL;
@@ -97,14 +98,14 @@ int matrix_apply(Matrix *dst,const Matrix *src,double (*f)(double))
 /* ---- Utility helpers (optional) ---- */
 int matrix_fill(Matrix *matrix ,double v)
 {
-    CHECK(m, -1);
-    size_t n = m->rows * m->cols;
-    for (size_t i=0;i<n;++i) m->data[i] = v;
+    CHECK(matrix, -1);
+    size_t n = matrix->rows * matrix->cols;
+    for (size_t i=0;i<n;++i) matrix->data[i] = v;
     return 0;
 }
 // Cleanup
 
-void free_matrix(Matrix *matrix)
+void matrix_free(Matrix *matrix)
 {
 	if (!matrix || !matrix->data)
         return;
@@ -112,5 +113,5 @@ void free_matrix(Matrix *matrix)
 	free(matrix->data);
 	matrix->data = NULL;
 	
-    free(matrix)
+    free(matrix);
 }

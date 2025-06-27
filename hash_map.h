@@ -1,6 +1,7 @@
 #ifndef H_HASH_MAP
 #define H_HASH_MAP
 
+#define _POSIX_C_SOURCE 200809L   /* must come before *any* #include */
 #include <stddef.h> // for size_t
 
 typedef struct Entry 

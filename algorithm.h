@@ -66,6 +66,17 @@ void print_tree(Tree *tree, void (*print_value)(void *));
 void print_graph(const Graph *graph);
 
 void print_tensor(const Tensor *t);
+
+static inline void print_ndarray_matrix(const Matrix *m)
+{
+    /* wrap Matrix as a 2-D Tensor view and call tensor printer */
+    size_t shape[2]   = { m->rows, m->cols };
+    size_t strides[2] = { m->cols, 1 };          /* row-major */
+    Tensor *view = tensor_from_buffer(2, shape, strides, m->data);
+    print_tensor(view);                        /* existing tensor printer */
+    /* view is just a wrapper -> free */
+    tensor_free(view);
+}
 // Transformation / Filtering
 void transform_list(LinkedList *list, void (*func)(void *));
 LinkedList *filter_list(LinkedList *other, int(*filter_func)(void *), size_t element_size);
