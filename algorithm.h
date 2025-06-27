@@ -18,6 +18,14 @@
 #define print_str(val)    printf("%s\n", val)
 #define print_char(val)   printf("%c\n", val)
 
+// Simple Swap
+static inline int my_swap(int *a, int *b)
+{
+    *a = *a ^ *b;
+    *b = *a ^ *b;
+    *a = *a ^ *b;
+}
+
 // Printing Helper
 static inline int ensure_valid_int(int *num_to_convert)
 {
