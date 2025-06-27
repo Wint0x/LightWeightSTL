@@ -19,6 +19,19 @@
 #define print_char(val)   printf("%c\n", val)
 
 // Printing Helper
+static inline int ensure_valid_int(int *num_to_convert)
+{
+    char term;
+    printf("Enter your number: ");
+    if(scanf("%d%c", num_to_convert, &term) != 2 || term != '\n')
+    {
+        fprintf(stderr, "Invalid Number\n");
+        return -1;
+    }   
+
+    return 0;
+}
+
 static inline void print_int_ptr(void *value)
 {
     printf("%d\n", *(int *)value);
